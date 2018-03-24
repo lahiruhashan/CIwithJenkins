@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_hudsonintegration" default="compile.module.hudsonintegration">
+  <dirname property="module.hudsonintegration.basedir" file="${ant.file.module_hudsonintegration}"/>
+  
+  <property name="module.jdk.home.hudsonintegration" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.hudsonintegration" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.hudsonintegration" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.hudsonintegration" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="hudsonintegration.output.dir" value="${module.hudsonintegration.basedir}/out/production/HudsonIntegration"/>
+  <property name="hudsonintegration.testoutput.dir" value="${module.hudsonintegration.basedir}/out/test/HudsonIntegration"/>
+  
+  <path id="hudsonintegration.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="hudsonintegration.module.production.classpath">
+    <path refid="${module.jdk.classpath.hudsonintegration}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  <path id="hudsonintegration.runtime.production.module.classpath">
+    <pathelement location="${hudsonintegration.output.dir}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  <path id="hudsonintegration.module.classpath">
+    <path refid="${module.jdk.classpath.hudsonintegration}"/>
+    <pathelement location="${hudsonintegration.output.dir}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  <path id="hudsonintegration.runtime.module.classpath">
+    <pathelement location="${hudsonintegration.testoutput.dir}"/>
+    <pathelement location="${hudsonintegration.output.dir}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.hudsonintegration">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.hudsonintegration">
+    <patternset refid="excluded.from.module.hudsonintegration"/>
+  </patternset>
+  
+  <path id="hudsonintegration.module.sourcepath">
+    <dirset dir="${module.hudsonintegration.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="hudsonintegration.module.test.sourcepath">
+    <dirset dir="${module.hudsonintegration.basedir}">
+      <include name="test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.hudsonintegration" depends="compile.module.hudsonintegration.production,compile.module.hudsonintegration.tests" description="Compile module HudsonIntegration"/>
+  
+  <target name="compile.module.hudsonintegration.production" depends="register.custom.compilers" description="Compile module HudsonIntegration; production classes">
+    <mkdir dir="${hudsonintegration.output.dir}"/>
+    <javac2 destdir="${hudsonintegration.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.hudsonintegration}/javac">
+      <compilerarg line="${compiler.args.hudsonintegration}"/>
+      <bootclasspath refid="hudsonintegration.module.bootclasspath"/>
+      <classpath refid="hudsonintegration.module.production.classpath"/>
+      <src refid="hudsonintegration.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.hudsonintegration"/>
+    </javac2>
+    
+    <copy todir="${hudsonintegration.output.dir}">
+      <fileset dir="${module.hudsonintegration.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.hudsonintegration.tests" depends="register.custom.compilers,compile.module.hudsonintegration.production" description="compile module HudsonIntegration; test classes" unless="skip.tests">
+    <mkdir dir="${hudsonintegration.testoutput.dir}"/>
+    <javac2 destdir="${hudsonintegration.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.hudsonintegration}/javac">
+      <compilerarg line="${compiler.args.hudsonintegration}"/>
+      <bootclasspath refid="hudsonintegration.module.bootclasspath"/>
+      <classpath refid="hudsonintegration.module.classpath"/>
+      <src refid="hudsonintegration.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.hudsonintegration"/>
+    </javac2>
+    
+    <copy todir="${hudsonintegration.testoutput.dir}">
+      <fileset dir="${module.hudsonintegration.basedir}/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.hudsonintegration" description="cleanup module">
+    <delete dir="${hudsonintegration.output.dir}"/>
+    <delete dir="${hudsonintegration.testoutput.dir}"/>
+  </target>
+</project>

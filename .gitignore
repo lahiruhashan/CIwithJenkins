@@ -24,3 +24,6 @@
 hs_err_pid*
 
 /.idea/
+/build.properties
+/HudsonIntegration.iml
+/module_hudsonintegration.xml
