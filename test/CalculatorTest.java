@@ -14,7 +14,7 @@ public class CalculatorTest {
     @Test
     public void subtract() throws Exception {
         Calculator calculator = new Calculator();
-        Assert.assertEquals(10, calculator.subtract(4,4));
+        Assert.assertEquals(2, calculator.subtract(4,4));
     }
 
 }
